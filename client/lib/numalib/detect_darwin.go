@@ -48,7 +48,10 @@ func (m *MacOS) scanAppleSilicon(top *Topology) {
 
 	eCoreCount := m1cpu.ECoreCount()
 	eCoreSpeed := hw.KHz(m1cpu.ECoreHz() / 1000)
-
+	// ECoreCount can returned -1 on the M2? wth
+	if eCoreCount < 0 {
+			eCoreCount = 0
+	}
 	top.Cores = make([]Core, pCoreCount+eCoreCount)
 	nthCore := hw.CoreID(0)
 
